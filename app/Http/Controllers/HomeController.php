@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['comments'])->withCount('likes')->where('is_published',1)->orderBy('id','asc')->get();
+        $posts = Post::withCount('likes')->where('is_published',1)->orderBy('id','desc')->get();
         return view('home', compact('posts'));
     }
 
@@ -53,11 +53,20 @@ class HomeController extends Controller
 
     public function BlogComment(Request $request) {
 
-        $comment = Comments::create([
-            'user_id' => Auth::id(),
-            'post_id' => $request->post_id,
-            'comment' => $request->comment,
-        ]);
+        if(!empty($request->parent_id)) {
+            $comment = Comments::create([
+                'user_id' => Auth::id(),
+                'post_id' => $request->post_id,
+                'parent_id' => $request->parent_id,
+                'body' => $request->comment,
+            ]);
+        } else {
+            $comment = Comments::create([
+                'user_id' => Auth::id(),
+                'post_id' => $request->post_id,
+                'body' => $request->comment,
+            ]);
+        }
 
         return response()->json([
             'status' => 200,

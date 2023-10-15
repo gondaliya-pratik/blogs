@@ -26,11 +26,13 @@ class Post extends Model
 
     public function comments()
     {
+        return $this->hasMany(\App\Comments::class, 'post_id')->whereNull('parent_id');
+    }
+
+    public function total_comments_count()
+    {
         return $this->hasMany(\App\Comments::class, 'post_id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo(\App\User::class, 'user_id');
-    }
+
 }

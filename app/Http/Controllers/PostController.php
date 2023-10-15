@@ -40,6 +40,7 @@ class PostController extends Controller
     {
         if ($request->ajax()) {
         	$posts = Post::where('user_id',Auth::id())->orderBy('id','desc')->get();
+          
             return Datatables::of($posts)->addIndexColumn()
             	->addColumn('is_published', function($row) {
             		$is_published = ($row->is_published == '1') ? 'Published' : 'Un-Published';
@@ -52,7 +53,7 @@ class PostController extends Controller
                     return $row->likes->count();
                 })
                 ->addColumn('total_comment', function($row) {
-                    return $row->comments->count();
+                    return $row->total_comments_count->count();
                 })
                 ->addColumn('action', function($row){
                     $btn = '<a class="btn btn-success" href="'.url('/posts/'.$row->id.'/edit').'" role="button">Edit</a>';

@@ -12,6 +12,16 @@ class Comments extends Model
     	'user_id',
         'post_id',
         'parent_id',
-        'comment',
+        'body',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\User::class, 'user_id');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(\App\Comments::class, 'parent_id');
+    }
 }

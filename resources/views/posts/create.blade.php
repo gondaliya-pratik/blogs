@@ -84,8 +84,7 @@
                     },
                 },
                 submitHandler: function (form) {
-                    // Here, you can perform actions when the form is valid and submitted
-                    form.submit(); // Submit the form
+                    form.submit();
                 }
             });
         });
